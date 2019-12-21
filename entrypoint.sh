@@ -43,9 +43,14 @@ if [ -n "$working_directory" ]; then
   cd "$working_directory"
 fi
 
-if [ ! -f "$root_file" ]; then
+if [ "$root_file" != all -a ! -f "$root_file" ]; then
   error "File '$root_file' cannot be found from the directory '$PWD'."
 fi
 
-# shellcheck disable=SC2086
-"$compiler" $args "$root_file"
+if [ "$root_file" = all ]; then
+  # shellcheck disable=SC2086
+  "$compiler" $args
+else
+  # shellcheck disable=SC2086
+  "$compiler" $args "$root_file"
+fi
